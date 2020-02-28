@@ -15,6 +15,14 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class ArticleSerializer(serializers.ModelSerializer):
+    details = serializers.CharField(source='summary')
+
+    class Meta:
+        model = Article
+        fields = ['title', 'details', 'thumbnail', 'updated_at']
+
+
+class ArticleDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = '__all__'

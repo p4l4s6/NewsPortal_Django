@@ -98,3 +98,8 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def summary(self):
+        return self.details[:100]
+
