@@ -13,8 +13,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=30, null=False)
     last_name = models.CharField(max_length=30, null=False)
     email = models.EmailField(unique=True, null=True)
-    profile_pic = models.FileField(storage=FileSystemStorage(location=settings.MEDIA_ROOT),
-                                   default='settings.MEDIA_ROOT/user/default_user_image.png', upload_to='media/user/')
+    profile_pic = models.ImageField(default='media/user/default_user_image.png', upload_to='user/')
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
@@ -64,8 +63,7 @@ class Profile(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=50, null=False, blank=False)
     is_active = models.BooleanField(null=False, default=True)
-    thumbnail = models.FileField(storage=FileSystemStorage(location=settings.MEDIA_ROOT),
-                                 default='settings.MEDIA_ROOT/category/default.png', upload_to='media/category/')
+    thumbnail = models.ImageField(default='media/category/default.png', upload_to='category/')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -87,11 +85,10 @@ class Article(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, null=False, blank=False)
     details = models.TextField(max_length=1200, null=False, blank=False)
-    thumbnail = models.FileField(storage=FileSystemStorage(location=settings.MEDIA_ROOT),
-                                 default='settings.MEDIA_ROOT/article/default.png', upload_to='media/article/')
+    thumbnail = models.ImageField(default='media/article/default.png', upload_to='article/')
     tag = models.ManyToManyField(Tag)
     is_published = models.BooleanField(default=False, null=False)
-    author = models.OneToOneField(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
