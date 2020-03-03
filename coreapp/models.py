@@ -31,8 +31,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         _('active'),
         default=False,
         help_text=_(
-            'Designates whether this user should be treated as active. '
-            'Unselect this instead of deleting accounts.'
+            'Designates whether this user should be treated as superuser. '
+            'Select this to allow all access'
         ),
     )
     USERNAME_FIELD = 'email'
