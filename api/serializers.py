@@ -5,7 +5,7 @@ from coreapp.models import User, Category, Tag, Article, Comment
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        read_only_fields = ['last_login', ]
+        read_only_fields = ['last_login', 'profile_pic']
         exclude = ('groups', 'is_staff', 'is_active', 'is_superuser', 'user_permissions')
         extra_kwargs = {
             'password': {'write_only': True},

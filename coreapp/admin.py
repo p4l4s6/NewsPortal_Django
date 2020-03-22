@@ -1,12 +1,16 @@
 from django.contrib import admin
 from django.contrib.auth.hashers import check_password, make_password
 
-from .models import User, Profile, Category, Tag, Article
+from .models import User, Profile, Category, Tag, Article, Featured, Trending
 
 
 # Register your models here.
 class ProfileInline(admin.TabularInline):
     model = Profile
+
+
+admin.site.register(Trending)
+admin.site.register(Featured)
 
 
 @admin.register(User)

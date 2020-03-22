@@ -1,0 +1,230 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+{% load hitcount_tags %}
+{% block content %}
+
+    <!-- *** START PAGE MAIN CONTENT *** -->
+    <main class="page_main_wrapper">
+        <!-- START NEWSTRICKER -->
+        <div class="container">
+            <div class="newstricker_inner">
+                <div class="trending" hidden><strong>Trending</strong> Now</div>
+                <div id="NewsTicker" class="owl-carousel owl-theme">
+
+                    {% for trend in trending %}
+                        <div class="item">
+                            <a href="{% url 'ArticleDetailView' trend.article.slug %}">{{ trend.article.title }}</a>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        <!--  END OF /. NEWSTRICKER -->
+        <div class="container">
+            <div class="row row-m">
+                <!-- START MAIN CONTENT -->
+                <div class="col-sm-8 col-p  main-content">
+                    <div class="theiaStickySidebar">
+                        <!-- START CARD POST -->
+                        <div class="row row-m">
+                            {% for article in articles %}
+                                <div class="col-sm-6 col-p">
+                                    <div class="posts card-post">
+                                        <div class="post-grid post-grid-item">
+                                            <figure class="posts-thumb">
+                                                <span class="post-category">{{ article.category.name }}</span>
+                                                <a href="{% url 'ArticleDetailView' article.slug %}"><img
+                                                        src="{{ article.thumbnail.url }}" alt="" style="height: 225px;"></a>
+                                            </figure>
+                                            <div class="posts-inner">
+                                                <a href="#" class="posts-link"></a>
+                                                <h6 class="posts-title">
+                                                    <a href="{% url 'ArticleDetailView' article.slug %}">{{ article.title }}</a>
+                                                </h6>
+                                                <ul class="authar-info">
+                                                    <li>
+                                                        <i class="ti-timer"></i>{{ article.updated_at }}</li>
+                                                    <li>
+                                                </ul>
+                                                <p>
+                                                    {{ article.summary }}
+                                                </p>
+                                            </div>
+                                            <div class="posts__footer card__footer">
+                                                <div class="post-author">
+                                                    <figure class="post-author-avatar hidden-xs">
+                                                        <img src="{{ article.author.profile_pic.url }}"
+                                                             alt="Post Author Avatar">
+                                                    </figure>
+                                                    <div class="post-author-info ">
+                                                        <h4 class="post-author-name">{{ article.author.get_full_name }}</h4>
+                                                    </div>
+                                                </div>
+                                                <ul class="post-meta">
+                                                    <li class="meta-item ">
+                                                        <i class="ti-eye"></i>{% get_hit_count for article %} views
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- END OF /. CARD POST -->
+
+
+                    </div>
+                </div>
+                <!-- END OF /. MAIN CONTENT -->
+                <!-- START SIDE CONTENT -->
+                <div class="col-sm-4 col-p rightSidebar">
+                    <div class="theiaStickySidebar">
+                        <!-- START SOCIAL ICON -->
+                        <div class="social-media-inner">
+                            <ul class="social-media clearfix">
+                                <li>
+                                    <a href="#" class="rss">
+                                        <i class="fa fa-rss"></i>
+                                        <div>2,035</div>
+                                        <p>Subscribers</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="fb">
+                                        <i class="fa fa-facebook"></i>
+                                        <div>3,794</div>
+                                        <p>Fans</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="g_plus">
+                                        <i class="fa fa-google-plus"></i>
+                                        <div>941</div>
+                                        <p>Followers</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="you_tube">
+                                        <i class="fa fa-youtube-play"></i>
+                                        <div>7,820</div>
+                                        <p>Subscribers</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="twitter">
+                                        <i class="fa fa-twitter"></i>
+                                        <div>1,562</div>
+                                        <p>Followers</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="pint">
+                                        <i class="fa fa-pinterest"></i>
+                                        <div>1,310</div>
+                                        <p>Followers</p>
+                                    </a>
+                                </li>
+                            </ul> <!-- /.social icon -->
+                        </div>
+                        <!-- END OF /. SOCIAL ICON -->
+                        <!-- START ADVERTISEMENT -->
+                        <div class="add-inner">
+                            <img src="{% static 'assets/images/add320x270-1.jpg' %}" class="img-responsive" alt="">
+                        </div>
+                        <!-- END OF /. ADVERTISEMENT -->
+                        <!-- START NAV TABS -->
+                        <div class="tabs-wrapper">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                                                          data-toggle="tab">Most Viewed</a></li>
+                                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab"
+                                                           data-toggle="tab">Popular news</a></li>
+                            </ul>
+                            <!-- Tab panels one -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade in active" id="home">
+
+                                    <div class="most-viewed">
+                                        <ul id="most-today" class="content tabs-content">
+                                            <li><span class="count">01</span><span class="text"><a href="#">South Africa bounce back on eventful day</a></span>
+                                            </li>
+                                            <li><span class="count">02</span><span class="text"><a href="#">Steyn ruled out of series with shoulder fracture</a></span>
+                                            </li>
+                                            <li><span class="count">03</span><span class="text"><a href="#">BCCI asks ECB to bear expenses of team's India tour</a></span>
+                                            </li>
+                                            <li><span class="count">04</span><span class="text"><a href="#">Duminy, Elgar tons set Australia huge target</a></span>
+                                            </li>
+                                            <li><span class="count">05</span><span class="text"><a href="#">English spinners are third-class citizens, says Graeme Swann</a></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- Tab panels two -->
+                                <div role="tabpanel" class="tab-pane fade" id="profile">
+                                    <div class="popular-news">
+                                        <div class="p-post">
+                                            <h4><a href="#">It is a long established fact that a reader will be
+                                                distracted by </a></h4>
+                                            <ul class="authar-info">
+                                                <li><a href="#" class="link"><i class="ti-timer"></i> May 15, 2016</a>
+                                                </li>
+                                                <li><a href="#" class="link"><i class="ti-thumb-up"></i>15 likes</a>
+                                                </li>
+                                            </ul>
+                                            <div class="reatting-2">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-half-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                        </div>
+                                        <div class="p-post">
+                                            <h4><a href="#">It is a long established fact that a reader will be
+                                                distracted by </a></h4>
+                                            <ul class="authar-info">
+                                                <li><a href="#" class="link"><i class="ti-timer"></i> May 15, 2016</a>
+                                                </li>
+                                                <li><a href="#" class="link"><i class="ti-thumb-up"></i>15 likes</a>
+                                                </li>
+                                            </ul>
+                                            <div class="reatting-2">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-half-o"></i>
+                                                <i class="fa fa-star-half-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                        </div>
+                                        <div class="p-post">
+                                            <h4><a href="#">It is a long established fact that a reader will be
+                                                distracted by </a></h4>
+                                            <ul class="authar-info">
+                                                <li><a href="#" class="link"><i class="ti-timer"></i> May 15, 2016</a>
+                                                </li>
+                                                <li><a href="#" class="link"><i class="ti-thumb-up"></i>15 likes</a>
+                                                </li>
+                                            </ul>
+                                            <div class="reatting-2">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-half-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END OF /. NAV TABS -->
+                    </div>
+                </div>
+                <!-- END OF /. SIDE CONTENT -->
+            </div>
+        </div>
+    </main>
+    <!-- *** END OF /. PAGE MAIN CONTENT *** -->
+{% endblock %}
