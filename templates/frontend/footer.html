@@ -1,0 +1,66 @@
+{% load static %}
+<!-- *** START FOOTER *** -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <!-- START FOOTER BOX (About) -->
+            <div class="col-sm-4 footer-box">
+                <div class="about-inner">
+                    <img src="{% static 'assets/images/logo-white.png' %}" class="img-responsive" alt=""/>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                        the industry's standard dummy </p>
+                    <ul>
+                        <li><i class="ti-location-arrow"></i>1234 Heaven Stress, Beverly Hill.</li>
+                        <li><i class="ti-mobile"></i>(800) 123 456 789</li>
+                        <li><i class="ti-email"></i>support@newsportal.com</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- START FOOTER BOX (Category) -->
+            <div class="col-sm-4 footer-box">
+                <h3 class="wiget-title">Category</h3>
+                <ul class="menu-services">
+                    <li><a href="{% url 'ArticleListView' 'politics' %}">Politics</a></li>
+                    <li><a href="{% url 'ArticleListView' 'lifestyle' %}">LifeStyle</a></li>
+                    <li><a href="{% url 'ArticleListView' 'technology' %}">Technology</a></li>
+                    <li><a href="{% url 'ArticleListView' 'culture' %}">Culture</a></li>
+                    <li><a href="{% url 'ArticleListView' 'entertainment' %}">Entertainment</a></li>
+                </ul>
+            </div>
+            <!-- END OF /. FOOTER BOX (Category) -->
+
+            <div class="col-sm-4 footer-box">
+                <h3 class="wiget-title">Important Links</h3>
+                <ul class="menu-services">
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms and Conditions</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- *** END OF /. FOOTER *** -->
+<!-- *** START SUB FOOTER *** -->
+<div class="sub-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-9 col-md-9">
+                <div class="copy">Copyright ©{% now 'Y' %} All rights reserved</div>
+            </div>
+            <div class="col-xs-12 col-sm-3 col-md-3">
+                <ul class="footer-nav">
+                    <li>
+                        Developed by <a class="text-white" href="http://raisul-portfolio.herokuapp.com/">Raisul
+                        Islam</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- *** END OF /. SUB FOOTER *** -->

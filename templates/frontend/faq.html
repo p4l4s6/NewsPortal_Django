@@ -1,0 +1,62 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+{% block content %}
+    <!-- *** START PAGE MAIN CONTENT *** -->
+    <main class="page_main_wrapper">
+        <!-- START PAGE HEADER -->
+        <section class="inner-head" style="background-image: url({% static 'assets/images/faq-bg.jpg' %});">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h1 class="entry-title">Frequently Asked Question</h1>
+                        <p class="description">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lorem quam, adipiscing
+                            condimentum tristique vel, eleifend sed turpis. Pellentesque cursus arcu id magna euismod in
+                            elementum purus molestie.
+                        </p>
+                        <div class="breadcrumb">
+                            <ul class="clearfix">
+                                <li class="ib"><a href="{% url 'HomeView' %}">Home</a></li>
+                                <li class="ib current-page">F.A.Q</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END OF /. PAGE HEADER -->
+        <section class="faq-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="panel-group" id="accordion" role="tablist">
+                            {% for faq in faqs %}
+                            <div class="panel">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                           href="#collapse{{ faq.id }}" aria-controls="collapseOne">
+                                            {{ faq.question }}
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse{{ faq.id }}" class="panel-collapse collapse in" role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <h4>{{ faq.question }}</h4>
+                                        <p>{{ faq.answer }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end of panel -->
+                            {% endfor %}
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- *** END OF /. PAGE MAIN CONTENT *** -->
+{% endblock %}

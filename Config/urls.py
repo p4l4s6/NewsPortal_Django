@@ -14,13 +14,30 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-
-
+from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.views.static import serve
+from django.contrib.auth.views import LoginView, LogoutView
+from coreapp.forms import EmailAuthForm
+from coreapp.views import SignupView
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('',include('coreapp.urls')),
-    path('api/v1/',include('api.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path('admin/', admin.site.urls),
+                  path('api/v1/', include('api.urls')),
+                  path('hitcount/', include('hitcount.urls')),
+                  path('ckeditor/', include('ckeditor_uploader.urls')),
+                  path('auth/login/', LoginView.as_view(), name='LoginView',
+                       kwargs={"authentication_form": EmailAuthForm}),
+                  path('auth/signup/', SignupView.as_view(), name='SignupView'),
+                  path('auth/logout/', LogoutView.as_view(), name='LogoutView'),
+                  path('', include('coreapp.urls')),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += [
+        url(r'^media/(?P<path>.*)$', serve, {
+            'document_root': settings.MEDIA_ROOT
+        }),
+    ]

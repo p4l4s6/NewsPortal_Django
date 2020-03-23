@@ -5,10 +5,21 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.core.files.storage import FileSystemStorage
 from django.db import models
+from django.db.models import Count
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from .MyUserManager import MyUserManager
 from django.urls import reverse
+from coreapp.utils import unique_slug_generator
+from django.db.models.signals import pre_save, post_save
+
+from .utils import unique_slug_generator
+from coreapp.utils import POLL_ANSWER
+
+
+def pre_save_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = unique_slug_generator(instance)
 
 
 # Create your models here.
@@ -64,7 +75,8 @@ class Profile(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=50, null=False, blank=False)
+    title = models.CharField(max_length=50, null=False, blank=False)
+    slug = models.SlugField(default='', editable=False, max_length=100)
     is_active = models.BooleanField(null=False, default=True)
     thumbnail = models.ImageField(default='media/category/default.png', upload_to='category/')
 
@@ -73,7 +85,10 @@ class Category(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return self.title
+
+
+pre_save.connect(pre_save_receiver, sender=Category)
 
 
 class Tag(models.Model):
@@ -88,7 +103,7 @@ class Tag(models.Model):
 class Article(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, null=False, blank=False)
-    details = models.TextField(max_length=1200, null=False, blank=False)
+    details = models.TextField(max_length=3000, null=False, blank=False)
     thumbnail = models.ImageField(default='media/article/default.png', upload_to='article/')
     tag = models.ManyToManyField(Tag)
     is_published = models.BooleanField(default=False, null=False)
@@ -108,33 +123,27 @@ class Article(models.Model):
     def get_related_posts_by_tags(self):
         return Article.objects.filter(tag__in=self.tag.all())[:3]
 
-    def _generate_slug(self):
-        max_length = self._meta.get_field('slug').max_length
-        value = self.title
-        slug_candidate = slug_original = slugify(value, allow_unicode=True)
-        for i in itertools.count(1):
-            if not Article.objects.filter(slug=slug_candidate).exists():
-                break
-            slug_candidate = '{}-{}'.format(slug_original, i)
 
-        self.slug = slug_candidate
-
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self._generate_slug()
-        super().save(*args, **kwargs)
+pre_save.connect(pre_save_receiver, sender=Article)
 
 
 class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     details = models.TextField(max_length=400, null=False, blank=False)
+    rating = models.IntegerField(default=3, null=False, blank=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.details
+
+    def get_full_star(self):
+        return range(1, self.rating)
+
+    def get_empty_star(self):
+        return range(1, 5 - self.rating)
 
 
 class Featured(models.Model):
@@ -157,3 +166,56 @@ class Trending(models.Model):
 
     def __str__(self):
         return self.article.title
+
+
+class Advertisement(models.Model):
+    name = models.CharField(max_length=50, help_text="Ad Campaign Name", null=False, blank=False)
+
+    banner_1 = models.ImageField(upload_to='ad/', default='ad/default_banner_ad.jpg')
+    banner_1_url = models.CharField(max_length=100, null=True, blank=True)
+    banner_2 = models.ImageField(upload_to='ad/', default='ad/default_banner_ad.jpg')
+    banner_2_url = models.CharField(max_length=100, null=True, blank=True)
+    banner_3 = models.ImageField(upload_to='ad/', default='ad/default_banner_ad.jpg')
+    banner_3_url = models.CharField(max_length=100, null=True, blank=True)
+    banner_4 = models.ImageField(upload_to='ad/', default='ad/default_banner_ad.jpg')
+    banner_4_url = models.CharField(max_length=100, null=True, blank=True)
+
+    right_square_1 = models.ImageField(upload_to='ad/', default='ad/default_square_ad.jpg')
+    square_1_url = models.CharField(max_length=100, null=True, blank=True)
+    right_square_2 = models.ImageField(upload_to='ad/', default='ad/default_square_ad.jpg')
+    square_2_url = models.CharField(max_length=100, null=True, blank=True)
+    right_square_3 = models.ImageField(upload_to='ad/', default='ad/default_square_ad.jpg')
+    square_3_url = models.CharField(max_length=100, null=True, blank=True)
+    right_square_4 = models.ImageField(upload_to='ad/', default='ad/default_square_ad.jpg')
+    square_4_url = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+# class Poll(models.Model):
+#     question = models.CharField(max_length=150, null=False, blank=False)
+#     option_1 = models.CharField(max_length=100, null=False, blank=False)
+#     option_2 = models.CharField(max_length=100, null=False, blank=False)
+#     answer = models.CharField(choices=POLL_ANSWER, null=False, blank=False)
+
+class Message(models.Model):
+    name = models.CharField(max_length=100, null=False, blank=False)
+    email = models.CharField(max_length=100, null=False, blank=False)
+    subject = models.CharField(max_length=100, null=False, blank=False)
+    message = models.TextField(max_length=600, null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
+class FAQ(models.Model):
+    question = models.CharField(max_length=100, null=False, blank=False)
+    answer = models.TextField(max_length=600, null=False, blank=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.question

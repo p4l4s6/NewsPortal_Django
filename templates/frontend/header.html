@@ -1,0 +1,117 @@
+{% load static %}
+<!-- *** START PAGE HEADER SECTION *** -->
+<header>
+    <!-- START HEADER TOP SECTION -->
+    <div class="header-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-6 col-sm-6 col-lg-6">
+                    <!-- Start header social -->
+                    <div class="header-social">
+                        <ul>
+                            <li><a href="https://facebook.com"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://twitter.com"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://instagram.com"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="https://youtube.com"><i class="fa fa-youtube"></i></a></li>
+                            <li><a href="https://linkedin.com"><i class="fa fa-linkedin"></i></a></li>
+                        </ul>
+                    </div>
+                    <!-- End of /. header social -->
+                    <!-- Start top left menu -->
+                    <div class="top-left-menu">
+                        <ul>
+                            <li><a href="{% url 'ContactView' %}">Contact</a></li>
+                        </ul>
+                    </div>
+                    <!-- End of /. top left menu -->
+                </div>
+                <!-- Start header top right menu -->
+                <div class="hidden-xs col-md-6 col-sm-6 col-lg-6">
+                    <div class="header-right-menu">
+                        <ul>
+                            {% if user.is_authenticated %}
+                                <li>
+                                    <i class="fa fa-user"></i> {{ user.email }}
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{% url 'SignupView' %}"><i class="fa fa-lock"></i> Sign Up </a>
+                                    or
+                                    <a href="{% url 'LoginView' %}"> Login</a>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                    </div>
+                </div> <!-- end of /. header top right menu -->
+            </div> <!-- end of /. row -->
+        </div> <!-- end of /. container -->
+    </div>
+    <!-- END OF /. HEADER TOP SECTION -->
+    <!-- START MIDDLE SECTION -->
+    <div class="header-mid hidden-xs">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="logo">
+                        <a href="base.html"><img src="{% static 'assets/images/logo.png' %}" class="img-responsive"
+                                                 alt=""></a>
+
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <a href="#"><img src="{% static 'assets/images/add728x90-1.jpg' %}" class="img-responsive"
+                                     alt=""></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END OF /. MIDDLE SECTION -->
+    <!-- START NAVIGATION -->
+    <nav class="navbar navbar-default navbar-sticky navbar-mobile bootsnav">
+        <!-- Start Top Search -->
+        <div class="top-search">
+            <div class="container">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Search">
+                    <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+                </div>
+            </div>
+        </div>
+        <!-- End Top Search -->
+        <div class="container">
+            <!-- Start Atribute Navigation -->
+            <div class="attr-nav">
+                <ul>
+                    <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                </ul>
+            </div>
+            <!-- End Atribute Navigation -->
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand hidden-sm hidden-md hidden-lg" href="#brand"><img
+                        src="{% static 'assets/images/logo.png' %}" class="logo" alt=""></a>
+            </div>
+            <!-- End Header Navigation -->
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-left" data-in="" data-out="">
+                    <li>
+                        <a href="{% url 'HomeView' %}">Home</a>
+                    </li>
+                    {% for menu in menus %}
+                        <li><a href="{% url 'ArticleListView' menu.slug %}">{{ menu.title }}</a></li>
+                    {% endfor %}
+                    <li><a href="{% url 'ContactView' %}">Contact Us</a></li>
+                    <li><a href="{% url 'FaqView' %}">F.A.Q</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+    </nav>
+    <!-- END OF/. NAVIGATION -->
+</header>
+<!-- *** END OF /. PAGE HEADER SECTION *** -->

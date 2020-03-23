@@ -13,7 +13,7 @@
 
                     {% for trend in trending %}
                         <div class="item">
-                            <a href="{% url 'ArticleDetailView' trend.article.slug %}">{{ trend.article.title }}</a>
+                            <a href="{% url 'ArticleDetailView' trend.category.slug trend.article.slug %}">{{ trend.article.title }}</a>
                         </div>
                     {% endfor %}
 
@@ -33,14 +33,14 @@
                                     <div class="posts card-post">
                                         <div class="post-grid post-grid-item">
                                             <figure class="posts-thumb">
-                                                <span class="post-category">{{ article.category.name }}</span>
-                                                <a href="{% url 'ArticleDetailView' article.slug %}"><img
+                                                <span class="post-category">{{ article.category.title }}</span>
+                                                <a href="{% url 'ArticleDetailView' article.category.slug article.slug %}"><img
                                                         src="{{ article.thumbnail.url }}" alt="" style="height: 225px;"></a>
                                             </figure>
                                             <div class="posts-inner">
                                                 <a href="#" class="posts-link"></a>
                                                 <h6 class="posts-title">
-                                                    <a href="{% url 'ArticleDetailView' article.slug %}">{{ article.title }}</a>
+                                                    <a href="{% url 'ArticleDetailView' article.category.slug article.slug %}">{{ article.title }}</a>
                                                 </h6>
                                                 <ul class="authar-info">
                                                     <li>
@@ -48,7 +48,7 @@
                                                     <li>
                                                 </ul>
                                                 <p>
-                                                    {{ article.summary }}
+                                                    {{ article.summary|safe }}
                                                 </p>
                                             </div>
                                             <div class="posts__footer card__footer">

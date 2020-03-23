@@ -1,7 +1,8 @@
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.contrib import admin
 from django.contrib.auth.hashers import check_password, make_password
-
-from .models import User, Profile, Category, Tag, Article, Featured, Trending
+from django import forms
+from .models import User, Profile, Category, Tag, Article, Featured, Trending, Message, Advertisement, FAQ
 
 
 # Register your models here.
@@ -11,6 +12,7 @@ class ProfileInline(admin.TabularInline):
 
 admin.site.register(Trending)
 admin.site.register(Featured)
+admin.site.register(Advertisement)
 
 
 @admin.register(User)
@@ -29,4 +31,24 @@ class UserAdmin(admin.ModelAdmin):
 
 admin.site.register(Category)
 admin.site.register(Tag)
-admin.site.register(Article)
+admin.site.register(FAQ)
+
+
+class ArticleAdminForm(forms.ModelForm):
+    details = forms.CharField(widget=CKEditorUploadingWidget())
+
+    class Meta:
+        model = Article
+        fields = '__all__'
+
+
+@admin.register(Article)
+class ArticleAdmin(admin.ModelAdmin):
+    readonly_fields = ('created_at', 'updated_at')
+    form = ArticleAdminForm
+
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'created_at']
+    readonly_fields = ('name', 'email', 'subject', 'message', 'created_at')

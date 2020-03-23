@@ -1,10 +1,11 @@
 {% extends 'frontend/base.html' %}
 {% load static %}
 {% load hitcount_tags %}
+{% load crispy_forms_tags %}
 {% block content %}
 
     <!-- *** START PAGE MAIN CONTENT *** -->
-    <main class="page_main_wrapper">
+    <main class="page_main_wrapper" xmlns="http://www.w3.org/1999/html">
 
         <!-- START NEWSTRICKER -->
         <div class="container">
@@ -14,7 +15,7 @@
 
                     {% for trend in trending %}
                         <div class="item">
-                            <a href="{% url 'ArticleDetailView' trend.article.slug %}">{{ trend.article.title }}</a>
+                            <a href="{% url 'ArticleDetailView' trend.article.category.slug trend.article.slug %}">{{ trend.article.title }}</a>
                         </div>
                     {% endfor %}
 
@@ -32,7 +33,9 @@
                             <div class="post_details_block details_block2">
                                 <div class="post-header">
                                     <ul class="td-category">
-                                        <li><a class="post-category" href="{% url 'ArticleListView' article.category.id %}">{{ article.category.name }}</a></li>
+                                        <li><a class="post-category"
+                                               href="{% url 'ArticleListView' article.category.slug %}">{{ article.category.title }}</a>
+                                        </li>
                                     </ul>
                                     <h2>{{ article.title }}</h2>
                                     <ul class="authar-info">
@@ -51,68 +54,16 @@
                                         <a href="#" class="hidden-xs"><i class="fa fa-pinterest-p"></i></a>
                                     </div>
                                 </figure>
-                                <p>{{ article.details }}</p>
-                                <div class="article_comment">
-                                    <p>All the lorem ipsum generators on the internet tend to repeat predefined chunks
-                                        as necessary, making this the first true on the Internet. uses a dictionary of
-                                        over.</p>
-                                    <div class="customers"> - Mozammel Hoque,<span> Advisor</span></div>
-                                </div>
-                                <p>It is a long established fact that a reader will be distracted by the readable
-                                    content of a page when looking at its layout. The point of using Lorem Ipsum
-                                    is that it has a more-or-less normal distribution of letters, as opposed to using
-                                    'Content here, content here', making it look like readable English. Many
-                                    desktop publishing packages and web page editors now use Lorem Ipsum as their
-                                    default model text, and a search for 'lorem ipsum' will uncover many web.</p>
-
-                                <h3>The most beautiful people we have known are those:</h3>
-
-                                <ul class="dot-list">
-                                    <li>explain to you how all this mistaken idea of denouncing</li>
-                                    <li>pleasure and praising pain was born</li>
-                                    <li>the system and expound the actual teachings</li>
-                                    <li>great explorer of the truth</li>
-                                </ul>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                                    Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took
-                                    a galley of type and scrambled it to make a type specimen book. It has survived not
-                                    only five centuries, but also the leap into electronic typesetting, remaining
-                                    essentially unchanged.</p>
-
-                                <div class="adaptive">
-                                    <img src="assets/images/details-690x380-1.jpg" alt="" class="img-responsive ">
-                                    <div class="caption-text">Lorem Ipsum is simply dummy text of the printing and
-                                        typesetting industry.
-                                    </div>
-                                </div>
-                                <p>There are many variations of passages of Lorem Ipsum available, but the majority have
-                                    suffered alteration in some form, by injected humour, or randomised words which
-                                    don't look even slightly believable. If you are going to use a passage of Lorem
-                                    Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of
-                                    text. All the Lorem Ipsum generators on the Internet tend to repeat predefined
-                                    chunks as necessary, making this the first true generator on the Internet. It uses a
-                                    dictionary of over 200 Latin words, combined with a handful of model sentence
-                                    structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem
-                                    Ipsum
-                                    is therefore always free from repetition, injected humour, or non-characteristic
-                                    words etc.</p>
-
-                                <blockquote><p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has
-                                    roots in a piece of classical Latin </p></blockquote>
-
-                                <p>It is a long established fact that a reader will be distracted by the readable
-                                    content of a page when looking at its layout. The point of using Lorem Ipsum
-                                    is that it has a more-or-less normal distribution of letters, as opposed to using
-                                    'Content here, content here', making it look like readable English. Many
-                                    desktop publishing packages and web page editors now use Lorem Ipsum as their
-                                    default model text, and a search for 'lorem ipsum' will uncover many web
-                                    sites still in their infancy. Various versions have evolved over the years,
-                                    sometimes by accident, sometimes on purpose (injected humour and the like).</p>
-
+                                {{ article.details|safe }}
                             </div>
 
                         </div>
+
+                        <!-- START ADVERTISEMENT -->
+                        <div class="add-inner">
+                            <img src="{% static 'assets/images/add728x90-1.jpg' %}" class="img-responsive" alt="">
+                        </div>
+                        <!-- END OF /. ADVERTISEMENT -->
                         <!-- START RELATED ARTICLES -->
                         <div class="post-inner post-inner-2">
                             <!--post header-->
@@ -130,7 +81,7 @@
                                                     <div class="col-xs-6 col-sm-4 col-md-4 col-padding">
                                                         <div class="grid-item">
                                                             <div class="grid-item-img">
-                                                                <a href="{% url 'ArticleDetailView' related_article.slug %}">
+                                                                <a href="{% url 'ArticleDetailView' related_article.category.slug related_article.slug %}">
                                                                     <img src="{{ related_article.thumbnail.url }}"
                                                                          style="height: 139px;"
                                                                          class="img-responsive" alt="">
@@ -139,7 +90,7 @@
                                                                 </a>
                                                             </div>
                                                             <h5>
-                                                                <a href="{% url 'ArticleDetailView' related_article.slug %}"
+                                                                <a href="{% url 'ArticleDetailView' related_article.category.slug related_article.slug %}"
                                                                    class="title">{{ related_article.title }}</a></h5>
                                                             <ul class="authar-info">
                                                                 <li>{{ related_article.updated_at }}</li>
@@ -160,7 +111,8 @@
                             <div class="post-footer">
                                 <div class="row thm-margin">
                                     <div class="col-xs-12 col-sm-12 col-md-12 thm-padding">
-                                        <a href="#" class="more-btn">More {{article.category.name}} articles</a>
+                                        <a href="{% url 'ArticleListView' article.category.slug %}" class="more-btn">More {{ article.category.title }}
+                                            articles</a>
                                     </div>
                                 </div>
                             </div>
@@ -168,280 +120,44 @@
                         <!-- END OF /. RELATED ARTICLES -->
                         <!-- START COMMENT -->
                         <div class="comments-container">
-                            <h3>Comments (3)</h3>
+                            <h3>Comments ({{ post_comments.count }})</h3>
                             <ul class="comments-list">
-                                <li>
-                                    <div class="comment-main-level">
-                                        <!-- Avatar -->
-                                        <div class="comment-avatar"><img src="assets/images/avatar-1.jpg" alt=""></div>
-                                        <div class="comment-box">
-                                            <div class="comment-content">
-                                                <div class="comment-header"><cite class="comment-author">- Mozammel
-                                                    Hoque</cite>
-                                                    <time datetime="2012-10-27" class="comment-datetime">25 October 2016
-                                                        at 12.27 pm
-                                                    </time>
-                                                </div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis
-                                                    animi et iure laudantium vitae, praesentium optio, sapiente
-                                                    distinctio illo?</p>
-                                                <a href="#" class="btn btn-news"> Reply</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <ul class="comments-list reply-list">
-                                        <li>
+                                {% for comment in post_comments %}
+                                    <li>
+                                        <div class="comment-main-level">
                                             <!-- Avatar -->
-                                            <div class="comment-avatar"><img src="assets/images/avatar-1.jpg" alt="">
-                                            </div>
+                                            <div class="comment-avatar"><img src="{{ comment.user.profile_pic.url }}"
+                                                                             alt=""></div>
                                             <div class="comment-box">
                                                 <div class="comment-content">
-                                                    <div class="comment-header"><cite class="comment-author">- Tahmina
-                                                        Akthr</cite>
-                                                        <time datetime="2012-10-27" class="comment-datetime">25 October
-                                                            2016 at 12.27 pm
+                                                    <div class="comment-header"><cite
+                                                            class="comment-author">{{ comment.user.get_full_name }}</cite>
+                                                        <time datetime="2012-10-27" class="comment-datetime">
+                                                            {{ comment.updated_at }}
                                                         </time>
                                                     </div>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit
-                                                        omnis animi et iure laudantium vitae, praesentium optio,
-                                                        sapiente distinctio illo?</p>
-                                                    <a href="#" class="btn btn-news"> Reply</a>
+                                                    <p>{{ comment.details }}</p>
                                                 </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <!-- Avatar -->
-                                            <div class="comment-avatar"><img src="assets/images/avatar-1.jpg" alt="">
-                                            </div>
-                                            <div class="comment-box">
-                                                <div class="comment-content">
-                                                    <div class="comment-header"><cite class="comment-author">- Mozammel
-                                                        Hoque</cite>
-                                                        <time datetime="2012-10-27" class="comment-datetime">25 October
-                                                            2016 at 12.27 pm
-                                                        </time>
-                                                    </div>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit
-                                                        omnis animi et iure laudantium vitae, praesentium optio,
-                                                        sapiente distinctio illo?</p>
-                                                    <a href="#" class="btn btn-news"> Reply</a>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <div class="comment-main-level">
-                                        <!-- Avatar -->
-                                        <div class="comment-avatar"><img src="assets/images/avatar-1.jpg" alt=""></div>
-                                        <div class="comment-box">
-                                            <div class="comment-content">
-                                                <div class="comment-header"><cite class="comment-author">- Tahmina
-                                                    Akthr</cite>
-                                                    <time datetime="2012-10-27" class="comment-datetime">25 October 2016
-                                                        at 12.27 pm
-                                                    </time>
-                                                </div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis
-                                                    animi et iure laudantium vitae, praesentium optio, sapiente
-                                                    distinctio illo?</p>
-                                                <a href="#" class="btn btn-news"> Reply</a>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
+                                {% endfor %}
+
                             </ul>
                         </div>
                         <!-- END OF /. COMMENT -->
                         <!-- START COMMENTS FORMS -->
-                        <form class="comment-form" action="#" method="post">
+                        <form class="comment-form" action="{% url 'AddCommentView' article.id %}" method="post">
                             <h3><strong>Leave</strong> a Comment</h3>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="name">full name*</label>
-                                        <input type="text" class="form-control" id="name" name="name"
-                                               placeholder="Your name*">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label for="email">Email*</label>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="email" name="email"
-                                               placeholder="Your email address here">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="name">website</label>
-                                        <input type="text" class="form-control" id="website" name="website"
-                                               placeholder="Your website url">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label for="email">Subject</label>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="subject" name="subject"
-                                               placeholder="Write subject here">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">message</label>
-                                <textarea class="form-control" id="message" name="message" placeholder="Your Comment*"
-                                          rows="5"></textarea>
-                            </div>
-                            <a href="#" class="btn btn-news"> Submit</a>
+                            {% csrf_token %}
+                           {{ comment_form|crispy  }}
+                            <button class="btn btn-news" type="submit"> Submit</button>
                         </form>
                         <!-- END OF /. COMMENTS FORMS -->
                     </div>
                 </div>
                 <!-- END OF /. MAIN CONTENT -->
-                <!-- START SIDE CONTENT -->
-                <div class="col-sm-4 col-p rightSidebar">
-                    <div class="theiaStickySidebar">
-                        <!-- START ADVERTISEMENT -->
-                        <div class="add-inner">
-                            <img src="{% static 'assets/images/add320x270-1.jpg' %}" class="img-responsive" alt="">
-                        </div>
-                        <!-- END OF /. ADVERTISEMENT -->
-                        <!-- START SOCIAL ICON -->
-                        <div class="social-media-inner">
-                            <ul class="social-media clearfix">
-                                <li>
-                                    <a href="#" class="rss">
-                                        <i class="fa fa-rss"></i>
-                                        <div>2,035</div>
-                                        <p>Subscribers</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="fb">
-                                        <i class="fa fa-facebook"></i>
-                                        <div>3,794</div>
-                                        <p>Fans</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="g_plus">
-                                        <i class="fa fa-google-plus"></i>
-                                        <div>941</div>
-                                        <p>Followers</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="you_tube">
-                                        <i class="fa fa-youtube-play"></i>
-                                        <div>7,820</div>
-                                        <p>Subscribers</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="twitter">
-                                        <i class="fa fa-twitter"></i>
-                                        <div>1,562</div>
-                                        <p>Followers</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="pint">
-                                        <i class="fa fa-pinterest"></i>
-                                        <div>1,310</div>
-                                        <p>Followers</p>
-                                    </a>
-                                </li>
-                            </ul> <!-- /.social icon -->
-                        </div>
-                        <!-- END OF /. SOCIAL ICON -->
-                        <!-- START NAV TABS -->
-                        <div class="tabs-wrapper">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
-                                                                          data-toggle="tab">Most Viewed</a></li>
-                                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab"
-                                                           data-toggle="tab">Popular news</a></li>
-                            </ul>
-                            <!-- Tab panels one -->
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane fade in active" id="home">
-
-                                    <div class="most-viewed">
-                                        <ul id="most-today" class="content tabs-content">
-                                            <li><span class="count">01</span><span class="text"><a href="#">South Africa bounce back on eventful day</a></span>
-                                            </li>
-                                            <li><span class="count">02</span><span class="text"><a href="#">Steyn ruled out of series with shoulder fracture</a></span>
-                                            </li>
-                                            <li><span class="count">03</span><span class="text"><a href="#">BCCI asks ECB to bear expenses of team's India tour</a></span>
-                                            </li>
-                                            <li><span class="count">04</span><span class="text"><a href="#">Duminy, Elgar tons set Australia huge target</a></span>
-                                            </li>
-                                            <li><span class="count">05</span><span class="text"><a href="#">English spinners are third-class citizens, says Graeme Swann</a></span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- Tab panels two -->
-                                <div role="tabpanel" class="tab-pane fade" id="profile">
-                                    <div class="popular-news">
-                                        <div class="p-post">
-                                            <h4><a href="#">It is a long established fact that a reader will be
-                                                distracted by </a></h4>
-                                            <ul class="authar-info">
-                                                <li><a href="#" class="link"><i class="ti-timer"></i> May 15, 2016</a>
-                                                </li>
-                                                <li><a href="#" class="link"><i class="ti-thumb-up"></i>15 likes</a>
-                                                </li>
-                                            </ul>
-                                            <div class="reatting-2">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                        </div>
-                                        <div class="p-post">
-                                            <h4><a href="#">It is a long established fact that a reader will be
-                                                distracted by </a></h4>
-                                            <ul class="authar-info">
-                                                <li><a href="#" class="link"><i class="ti-timer"></i> May 15, 2016</a>
-                                                </li>
-                                                <li><a href="#" class="link"><i class="ti-thumb-up"></i>15 likes</a>
-                                                </li>
-                                            </ul>
-                                            <div class="reatting-2">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                        </div>
-                                        <div class="p-post">
-                                            <h4><a href="#">It is a long established fact that a reader will be
-                                                distracted by </a></h4>
-                                            <ul class="authar-info">
-                                                <li><a href="#" class="link"><i class="ti-timer"></i> May 15, 2016</a>
-                                                </li>
-                                                <li><a href="#" class="link"><i class="ti-thumb-up"></i>15 likes</a>
-                                                </li>
-                                            </ul>
-                                            <div class="reatting-2">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- END OF /. NAV TABS -->
-                    </div>
-                </div>
-                <!-- END OF /. SIDE CONTENT -->
+                {% include 'frontend/right_sidebar.html' %}
             </div>
         </div>
     </main>

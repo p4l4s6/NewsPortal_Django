@@ -25,7 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name', 'thumbnail', ]
+        fields = ['id', 'title', 'thumbnail', ]
 
 
 class TagSerializer(serializers.ModelSerializer):

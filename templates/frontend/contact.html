@@ -1,0 +1,136 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <!-- START PAGE TITLE -->
+    <div class="page-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <h1><strong>Contact</strong></h1>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <ol class="breadcrumb">
+                        <li><a href="{% url 'HomeView' %}">Home</a></li>
+                        <li class="active"><a href="{% url 'ContactView' %}">Contact</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END OF /. PAGE TITLE -->
+    <!-- *** START PAGE MAIN CONTENT *** -->
+    <main class="page_main_wrapper">
+        <div class="container">
+            <div class="row row-m">
+                <div class="col-sm-8 main-content col-p">
+                    <div class="theiaStickySidebar">
+                        <!-- START CONTACT FORM AREA -->
+                        <div class="contact_form_inner">
+                            <div class="panel_inner">
+                                <div class="panel_header">
+                                    <h4><strong>We'd Love to Here</strong> Form you, Get in Touch With in Us? </h4>
+                                </div>
+                                <div class="panel_body">
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+                                        Ipsum has been the industry's standard dummy
+                                        text ever since the 1500s, when an unknown printer took a galley of type and
+                                        scrambled it to make a type specimen book. It has
+                                        survived not only five centuries, but also the leap into electronic typesetting,
+                                        remaining essentially unchanged.</p>
+                                    <form class="comment-form" method="post">
+                                        {% csrf_token %}
+                                        {{ form|crispy }}
+                                        <button type="submit" class="btn btn-news"> Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END OF CONTACT FORM AREA -->
+                    </div>
+                </div>
+                <div class="col-sm-4 rightSidebar col-p">
+                    <div class="theiaStickySidebar">
+                        <!-- START CONTACT INFO -->
+                        <div class="panel_inner">
+                            <div class="panel_header">
+                                <h4><strong>Contact</strong> Info </h4>
+                            </div>
+                            <div class="panel_body">
+                                <address><strong>Twitter, Inc.</strong><br> 1355 Market Street, Suite 900<br> San
+                                    Francisco, CA 94103<br> <abbr title="Phone">P:</abbr> (123) 456-7890
+                                </address>
+                                <address><strong>Twitter, Inc.</strong><br> <abbr title="Phone">Phone:</abbr>
+                                    1.800.555.6789<br> Fax: 1.888.555.9876<br> <abbr title="Phone">P:</abbr> (123)
+                                    456-7890
+                                </address>
+                                <address><strong>Full Name</strong><br> <a href="mailto:#">first.last@example.com</a>
+                                </address>
+                            </div>
+                        </div>
+                        <!-- END OF /. CONTACT INFO -->
+                        <!-- START SOCIAL ICON -->
+                        <div class="social-media-inner">
+                            <ul class="social-media clearfix">
+                                <li>
+                                    <a href="#" class="rss">
+                                        <i class="fa fa-rss"></i>
+                                        <div>2,035</div>
+                                        <p>Subscribers</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="fb">
+                                        <i class="fa fa-facebook"></i>
+                                        <div>3,794</div>
+                                        <p>Fans</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="g_plus">
+                                        <i class="fa fa-google-plus"></i>
+                                        <div>941</div>
+                                        <p>Followers</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="you_tube">
+                                        <i class="fa fa-youtube-play"></i>
+                                        <div>7,820</div>
+                                        <p>Subscribers</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="twitter">
+                                        <i class="fa fa-twitter"></i>
+                                        <div>1,562</div>
+                                        <p>Followers</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="pint">
+                                        <i class="fa fa-pinterest"></i>
+                                        <div>1,310</div>
+                                        <p>Followers</p>
+                                    </a>
+                                </li>
+                            </ul> <!-- /.social icon -->
+                        </div>
+                        <!-- END OF /. SOCIAL ICON -->
+                    </div>
+                </div>
+            </div>
+            <div class="panel_inner">
+                <div class="panel_body">
+                    <!-- The element that will contain Google Map. This is used in both the Javascript and CSS above. -->
+                    <div class="row">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29213.507773294972!2d90.36011164691504!3d23.758486098980278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8ad9a69f36f%3A0xffd63d9e3af04553!2sDhanmondi%2032%20Bus%20Stop!5e0!3m2!1sen!2sbd!4v1584930035911!5m2!1sen!2sbd"
+                                width="1010" height="300" frameborder="0" style="border:0;" allowfullscreen=""
+                                aria-hidden="false" tabindex="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- *** END OF /. PAGE MAIN CONTENT *** -->
+{% endblock %}

@@ -1,0 +1,133 @@
+{% load static %}
+<!-- START SIDE CONTENT -->
+<div class="col-sm-4 col-p rightSidebar">
+    <div class="theiaStickySidebar">
+
+        <!-- START ADVERTISEMENT -->
+        <div class="add-inner">
+            <img src="{% static 'assets/images/add320x270-1.jpg' %}" class="img-responsive" alt="">
+        </div>
+        <!-- END OF /. ADVERTISEMENT -->
+
+        <!-- START WEATHER -->
+        <div class="weather-wrapper">
+            <a class="weatherwidget-io" href="https://forecast7.com/en/23d8190d41/dhaka/"
+               data-label_1="DHAKA" data-label_2="WEATHER" data-icons="Climacons" data-days="3"
+               data-theme="pure">DHAKA WEATHER</a>
+        </div>
+
+        <!-- END OF /. WEATHER -->
+
+        <!-- START SOCIAL ICON -->
+        <div class="social-media-inner">
+            <ul class="social-media clearfix">
+                <li>
+                    <a href="#" class="rss">
+                        <i class="fa fa-rss"></i>
+                        <div>2,035</div>
+                        <p>Subscribers</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="fb">
+                        <i class="fa fa-facebook"></i>
+                        <div>3,794</div>
+                        <p>Fans</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="g_plus">
+                        <i class="fa fa-google-plus"></i>
+                        <div>941</div>
+                        <p>Followers</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="you_tube">
+                        <i class="fa fa-youtube-play"></i>
+                        <div>7,820</div>
+                        <p>Subscribers</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="twitter">
+                        <i class="fa fa-twitter"></i>
+                        <div>1,562</div>
+                        <p>Followers</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="pint">
+                        <i class="fa fa-pinterest"></i>
+                        <div>1,310</div>
+                        <p>Followers</p>
+                    </a>
+                </li>
+            </ul> <!-- /.social icon -->
+        </div>
+        <!-- END OF /. SOCIAL ICON -->
+
+        <!-- START ADVERTISEMENT -->
+        <div class="add-inner">
+            <img src="{% static 'assets/images/add320x270-1.jpg' %}" class="img-responsive" alt="">
+        </div>
+        <!-- END OF /. ADVERTISEMENT -->
+         <!-- START NAV TABS -->
+        <div class="tabs-wrapper">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                                          data-toggle="tab">Popular news</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab"
+                                           data-toggle="tab">Recent Comments</a></li>
+            </ul>
+            <!-- Tab panels one -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="home">
+
+                    <div class="most-viewed">
+                        <ul id="most-today" class="content tabs-content">
+                            {% for article in popular|slice:":5" %}
+                                <li>
+                                    <span class="count">{{ forloop.counter }}</span>
+                                    <span class="text">
+                                                    <a href="{% url 'ArticleDetailView' article.content_object.category.slug article.content_object.slug %}">{{ article.content_object.title }}</a>
+                                                </span>
+                                </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- Tab panels two -->
+                <div role="tabpanel" class="tab-pane fade" id="profile">
+                    <div class="popular-news">
+                        {% for comment in comments|slice:":3" %}
+                            <div class="p-post">
+                                <h4>
+                                    <a href="{% url 'ArticleDetailView' comment.article.category.slug comment.article.slug %}">{{ comment.details }}</a>
+                                </h4>
+                                <ul class="authar-info">
+                                    <li class="date"><a href="#"><i
+                                            class="ti-timer"></i>{{ comment.updated_at }}</a>
+                                    </li>
+                                </ul>
+{#                                <div class="reatting-2">#}
+{#                                    {% for rating in comment.get_full_star %}#}
+{#                                        <i class="fa fa-star"></i>#}
+{#                                    {% endfor %}#}
+{#                                    {% for rating in comment.get_empty_star %}#}
+{#                                        <i class="fa fa-star-o"></i>#}
+{#                                    {% endfor %}#}
+{#                                </div>#}
+                            </div>
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END OF /. NAV TABS -->
+    </div>
+</div>
+<!-- END OF /. SIDE CONTENT -->
