@@ -1,10 +1,34 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework import viewsets, generics, mixins
 from coreapp.models import User, Category, Tag, Article, Comment
 from api.serializers import UserSerializer, CategorySerializer, TagSerializer, ArticleListSerializer, \
     ArticleDetailSerializer, \
     ListCommentSerializer, CreateCommentSerializer
+
+class LoginView(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            user = serializer.validated_data['user']
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({
+                'code': status.HTTP_200_OK,
+                'message': 'Successfully logged in',
+                'token': token.key,
+                'user_id': user.pk,
+                'email': user.email,
+            })
+        return Response({
+            'code': status.HTTP_400_BAD_REQUEST,
+            'message': 'Incorrect email or password',
+            'details': serializer.errors
+        })
+
 
 
 class SignUpView(generics.CreateAPIView):
