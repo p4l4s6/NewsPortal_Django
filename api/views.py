@@ -20,7 +20,7 @@ class LoginView(ObtainAuthToken):
                 'code': status.HTTP_200_OK,
                 'message': 'Successfully logged in',
                 'token': token.key,
-                'user_id': user.pk,
+                'id': user.pk,
                 'email': user.email,
             })
         return Response({
