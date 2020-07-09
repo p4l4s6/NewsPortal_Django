@@ -1,5 +1,6 @@
-from .base import *
 from decouple import Csv
+
+from .base import *
 
 DEBUG = config('DEBUG', cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
@@ -17,6 +18,9 @@ DATABASES = {
         'PORT': config('DB_PORT', cast=int),
     }
 }
+MIDDLEWARE += [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+]
 
 # Cache (Cache settings)
 # CACHES = {
@@ -36,6 +40,7 @@ DATABASES = {
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 

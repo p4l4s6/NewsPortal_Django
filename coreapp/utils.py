@@ -1,15 +1,16 @@
-import itertools
-import uuid
-from os import path
-from django.utils.text import slugify
 import random
 import string
+import uuid
+from os import path
+
+from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
-POLL_ANSWER=[
-    ("A",_("A")),
-    ("B",_("B"))
+POLL_ANSWER = [
+    ("A", _("A")),
+    ("B", _("B"))
 ]
+
 
 def get_filename(filename):
     extension = path.splitext(filename)[1]
