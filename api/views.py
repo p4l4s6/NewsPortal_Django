@@ -1,14 +1,15 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework import status
+from rest_framework import viewsets, generics, mixins
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework import status
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from rest_framework import viewsets, generics, mixins
-from coreapp.models import User, Category, Tag, Article, Comment
+
 from api.serializers import UserSerializer, CategorySerializer, TagSerializer, ArticleListSerializer, \
-    ArticleDetailSerializer, \
-    ListCommentSerializer, CreateCommentSerializer
+    ArticleDetailSerializer, ListCommentSerializer, CreateCommentSerializer, FeaturedArticleSerializer
+from coreapp.models import User, Category, Tag, Article, Comment, Featured
+
 
 class LoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
@@ -28,7 +29,6 @@ class LoginView(ObtainAuthToken):
             'message': 'Incorrect email or password',
             'details': serializer.errors
         })
-
 
 
 class SignUpView(generics.CreateAPIView):
@@ -81,3 +81,8 @@ class CommentViewSet(viewsets.ModelViewSet):
         if self.action == 'retrieve':
             return ListCommentSerializer
         return CreateCommentSerializer
+
+
+class FeaturedArticleList(generics.ListAPIView):
+    serializer_class = FeaturedArticleSerializer
+    queryset = Featured.objects.filter(is_active=True).order_by('-updated_at')

@@ -8,7 +8,7 @@ from django.db import models
 from django.db.models import Count
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
-from .MyUserManager import MyUserManager
+from .managers import MyUserManager
 from django.urls import reverse
 from coreapp.utils import unique_slug_generator
 from django.db.models.signals import pre_save, post_save

@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from coreapp.models import User, Category, Tag, Article, Comment
+
+from coreapp.models import User, Category, Tag, Article, Comment, Featured
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -70,3 +71,11 @@ class ListCommentSerializer(serializers.ModelSerializer):
         fields = ['id', 'details', 'article', 'user', 'created_at']
         read_only_fields = ('id', 'article')
         depth = 1
+
+
+class FeaturedArticleSerializer(serializers.ModelSerializer):
+    article = ArticleListSerializer()
+
+    class Meta:
+        model = Featured
+        fields = '__all__'
