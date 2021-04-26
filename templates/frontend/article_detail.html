@@ -46,6 +46,11 @@
                                 </div>
                                 <figure class="social-icon">
                                     <img src="{{ article.thumbnail.url }}" class="img-responsive" alt=""/>
+                                    <iframe width="560" height="315"
+                                            src="https://www.youtube.com/embed/{{ article.video_key }}?controls=0"
+                                            title="YouTube video player" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
                                     <div>
                                         <a href="#"><i class="fa fa-facebook"></i></a>
                                         <a href="#"><i class="fa fa-twitter"></i></a>
@@ -150,7 +155,7 @@
                         <form class="comment-form" action="{% url 'AddCommentView' article.id %}" method="post">
                             <h3><strong>Leave</strong> a Comment</h3>
                             {% csrf_token %}
-                           {{ comment_form|crispy  }}
+                            {{ comment_form|crispy }}
                             <button class="btn btn-news" type="submit"> Submit</button>
                         </form>
                         <!-- END OF /. COMMENTS FORMS -->

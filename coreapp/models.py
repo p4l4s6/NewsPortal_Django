@@ -1,20 +1,11 @@
-import itertools
-from datetime import datetime
-from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
-from django.core.files.storage import FileSystemStorage
 from django.db import models
-from django.db.models import Count
-from django.utils.text import slugify
+from django.db.models.signals import pre_save
 from django.utils.translation import ugettext_lazy as _
-from .managers import MyUserManager
-from django.urls import reverse
-from coreapp.utils import unique_slug_generator
-from django.db.models.signals import pre_save, post_save
 
+from .managers import MyUserManager
 from .utils import unique_slug_generator
-from coreapp.utils import POLL_ANSWER
 
 
 def pre_save_receiver(sender, instance, *args, **kwargs):
@@ -109,6 +100,7 @@ class Article(models.Model):
     is_published = models.BooleanField(default=False, null=False)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     slug = models.SlugField(default='', editable=False, max_length=150)
+    video_key = models.CharField(max_length=100, default='', blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
